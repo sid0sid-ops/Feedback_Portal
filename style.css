@@ -1,0 +1,116 @@
+/* 
+  Mac Style Architecture overrides 
+  Leveraging Tailwind classes primarily, CSS used just for specific micro-components
+*/
+
+/* Glassmorphism Panel specific to Light Mode Mac style */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.04), 0 0 1px 0 rgba(0, 0, 0, 0.1) inset;
+}
+
+/* Base custom Apple-like scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+/* Custom Checkbox Outline */
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: #0066cc;
+    cursor: pointer;
+}
+
+/* Form Checkbox custom active state styling enhancement */
+.checkbox-wrapper input:checked~span {
+    color: #0066cc;
+    font-weight: 600;
+}
+
+.checkbox-wrapper:focus-within {
+    border-color: #0066cc;
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
+}
+
+/* Abstracted Apple-like rating bubbles */
+.rating-bubble {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #f5f5f7;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #86868b;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@media (max-width: 640px) {
+    .rating-bubble {
+        width: 100%;
+        height: 40px;
+        border-radius: 10px;
+        /* Squares on mobile for larger tap targets */
+    }
+}
+
+.rating-group label:hover .rating-bubble:not(.peer:checked + .rating-bubble) {
+    background-color: #e8e8ed;
+}
+
+/* Checked state defaults (blues) */
+.peer:checked+.rating-bubble {
+    background-color: #e5f0fa;
+    color: #0066cc;
+    border-color: #0066cc;
+    font-weight: 600;
+    transform: scale(1.08);
+    /* slight spring bounce */
+}
+
+/* Checked state for highlights (like Overall Exp) */
+.peer:checked+.rating-bubble.highlight {
+    background-color: #0066cc;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+}
+
+/* Fast highlight pop */
+.peer:checked+div {
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

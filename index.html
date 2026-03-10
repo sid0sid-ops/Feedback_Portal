@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Portal | CSBB Workshop 2026</title>
+    <meta name="description"
+        content="Workshop feedback form for Reads to Insights: Bulk and Single-Cell RNA-Seq organized by Centre for Systems Biology and Bioinformatics.">
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        // Mac System Font Stack
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+                        heading: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        macBg: '#fbfbfd',
+                        macText: '#1d1d1f',
+                        macSecondary: '#86868b',
+                        macBlue: '#0066cc',
+                        macBlueHover: '#004499',
+                        macSurface: '#ffffff',
+                    },
+                    boxShadow: {
+                        'mac': '0 4px 24px rgba(0, 0, 0, 0.04)',
+                        'mac-hover': '0 8px 32px rgba(0, 0, 0, 0.08)',
+                        'mac-input': '0 2px 5px rgba(0, 0, 0, 0.02)',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body
+    class="bg-macBg text-macText font-sans antialiased overflow-x-hidden min-h-screen flex flex-col relative z-0 selection:bg-macBlue/20">
+
+    <!-- Dynamic Canvas (RNA Helix moving in background) light theme optimized -->
+    <canvas id="bgCanvas"
+        class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-60 mix-blend-multiply"></canvas>
+
+    <!-- Navigation Header - Translucent Mac Style Bar -->
+    <nav
+        class="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-black/5 px-6 py-3 flex items-center justify-between shadow-sm transition-all saturate-150">
+        <div class="flex items-center gap-4">
+            <div class="flex flex-col">
+                <span class="text-[9px] font-semibold text-macSecondary tracking-wider uppercase leading-none mb-1">
+                    Panjab University, Chandigarh
+                </span>
+                <a href="https://systemsbiology.puchd.ac.in/" target="_blank" rel="noopener noreferrer"
+                    class="text-xl font-heading font-bold tracking-tight leading-none text-macText hover:text-macBlue transition-colors group">
+                    CSBB<span class="text-macBlue transition-colors duration-300 group-hover:text-macBlueHover">
+                        Workshops</span>
+                </a>
+            </div>
+        </div>
+        <div class="flex items-center">
+            <a href="https://systemsbiology.puchd.ac.in/" target="_blank" rel="noopener noreferrer"
+                class="text-xs font-medium text-macBlue hover:bg-macBlue/10 px-4 py-2 rounded-full transition-colors flex items-center gap-2">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Official Site
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Header - Minimalistic Mac Style -->
+    <header class="relative w-full py-24 px-4 overflow-hidden flex flex-col items-center justify-center">
+        <!-- Subtle radial glow behind the text to separate from canvas -->
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-white/80 blur-[80px] rounded-full -z-10 pointer-events-none">
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto text-center space-y-5 animate-slide-up">
+            <div
+                class="inline-block px-4 py-1.5 rounded-full bg-white/60 backdrop-blur-md border border-black/5 text-xs font-medium text-macSecondary tracking-wide mb-2 shadow-mac-input">
+                <i class="fa-solid fa-calendar-alt mr-2 text-macBlue"></i> 9–10 March 2026 &nbsp;|&nbsp; <i
+                    class="fa-solid fa-clock mr-2 text-macBlue"></i> 9:00 AM – 5:00 PM (IST)
+            </div>
+
+            <h1
+                class="text-5xl md:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-tight text-macText">
+                Skill Building Workshop
+            </h1>
+            <h2 class="text-2xl md:text-3xl font-medium text-macSecondary">
+                Reads to Insights: Bulk and Single-Cell RNA-Seq
+            </h2>
+
+            <div class="pt-8 mt-6 text-sm text-macSecondary font-medium flex flex-col items-center gap-1">
+                <p>Organized by</p>
+                <a href="https://systemsbiology.puchd.ac.in/" target="_blank" rel="noopener noreferrer"
+                    class="text-lg font-semibold text-macText hover:text-macBlue transition-colors">
+                    Centre for Systems Biology and Bioinformatics
+                </a>
+                <p>U.I.E.A.S.T., Panjab University, Chandigarh</p>
+                <div
+                    class="mt-4 inline-block px-3 py-1 bg-black/5 rounded-md text-xs font-semibold text-macText border border-black/5">
+                    <i class="fa-solid fa-building-user mr-1"></i> Offline Event
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full max-w-3xl mx-auto px-4 py-8 flex flex-col gap-8">
+
+        <!-- Workshop Description -->
+        <section class="glass-panel p-8 animate-slide-up relative overflow-hidden group">
+            <div class="absolute left-0 top-0 w-1.5 h-full bg-macBlue"></div>
+            <h3 class="text-xl font-heading font-semibold text-macText mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-microscope text-macBlue"></i> About
+            </h3>
+            <p class="text-macText leading-relaxed text-[15px]">
+                This intensive hands-on workshop thoroughly covered
+                <strong class="font-semibold text-macBlue">Single-Cell RNA-Seq data analysis</strong>,
+                <strong class="font-semibold text-macBlue">Bulk RNA-Seq transcriptomics</strong>, and
+                <strong class="font-semibold text-macBlue">AI-driven biomedical imaging</strong>.
+            </p>
+            <div class="mt-5 bg-[#f5f5f7]/80 rounded-xl p-4 flex gap-4 items-start border border-black/[0.03]">
+                <div class="bg-macBlue/10 p-2.5 rounded-full text-macBlue shrink-0">
+                    <i class="fa-solid fa-chart-line text-lg"></i>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-macText mb-1 text-sm">Empowering Bioinformatics Research</h4>
+                    <p class="text-[13px] text-macSecondary leading-relaxed">
+                        Gathering detailed data points from interacting scholars forms the backbone of curriculum
+                        optimization in computational biology.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feedback Form Section -->
+        <section class="glass-panel p-8 sm:p-10 animate-fade-in relative z-10 transition-all duration-300">
+
+            <div class="mb-8 border-b border-black/5 pb-6 text-center">
+                <h2 class="text-2xl font-heading font-semibold text-macText mb-1">Participant Feedback</h2>
+                <p class="text-sm text-macSecondary">Evaluate your experience with the CSBB pipeline training.</p>
+            </div>
+
+            <form id="feedbackForm" class="space-y-8">
+
+                <!-- Personal Details Group -->
+                <div class="space-y-6">
+                    <h3
+                        class="text-[15px] font-semibold text-macText flex items-center gap-2 border-b border-black/5 pb-2">
+                        <span
+                            class="bg-black/5 text-macText w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                        Details
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Full Name -->
+                        <div class="space-y-1.5 relative">
+                            <label for="name" class="block text-[13px] font-medium text-macSecondary">Full Name <span
+                                    class="text-red-500">*</span></label>
+                            <input type="text" id="name" name="name" required
+                                class="w-full bg-white border border-black/10 rounded-xl py-3 px-4 text-[15px] text-macText placeholder-macSecondary/50 focus:outline-none focus:ring-4 focus:ring-macBlue/20 focus:border-macBlue transition-all shadow-mac-input"
+                                placeholder="e.g. Dr. Jane Doe">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="space-y-1.5 relative">
+                            <label for="email" class="block text-[13px] font-medium text-macSecondary">Email Address
+                                <span class="text-red-500">*</span></label>
+                            <input type="email" id="email" name="email" required
+                                class="w-full bg-white border border-black/10 rounded-xl py-3 px-4 text-[15px] text-macText placeholder-macSecondary/50 focus:outline-none focus:ring-4 focus:ring-macBlue/20 focus:border-macBlue transition-all shadow-mac-input"
+                                placeholder="e.g. jane@institute.edu">
+                        </div>
+
+                        <!-- Institution -->
+                        <div class="space-y-1.5 relative md:col-span-2">
+                            <label for="institution" class="block text-[13px] font-medium text-macSecondary">Institution
+                                / University <span class="text-red-500">*</span></label>
+                            <input type="text" id="institution" name="institution" required
+                                class="w-full bg-white border border-black/10 rounded-xl py-3 px-4 text-[15px] text-macText placeholder-macSecondary/50 focus:outline-none focus:ring-4 focus:ring-macBlue/20 focus:border-macBlue transition-all shadow-mac-input"
+                                placeholder="e.g. Panjab University">
+                        </div>
+
+                        <!-- Academic Level -->
+                        <div class="space-y-1.5 relative md:col-span-2">
+                            <label for="level" class="block text-[13px] font-medium text-macSecondary">Academic Level
+                                <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <select id="level" name="level" required
+                                    class="w-full bg-white border border-black/10 rounded-xl py-3 pl-4 pr-10 text-[15px] text-macText focus:outline-none focus:ring-4 focus:ring-macBlue/20 focus:border-macBlue transition-all shadow-mac-input appearance-none cursor-pointer">
+                                    <option value="" disabled selected class="text-gray-400">Select your level...
+                                    </option>
+                                    <option value="MSc Student">MSc Student</option>
+                                    <option value="PhD Scholar">PhD Scholar</option>
+                                    <option value="Researcher">Researcher</option>
+                                    <option value="Faculty">Faculty</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <i
+                                    class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-macSecondary text-xs pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <!-- Is Department Student Check -->
+                        <div
+                            class="space-y-3 md:col-span-2 pt-2 bg-[#fbfbfd] p-4 rounded-xl border border-black-[0.05]">
+                            <label class="block text-[14px] font-medium text-macText leading-snug">Are you a student or
+                                research scholar at CSBB?</label>
+                            <div class="flex gap-6">
+                                <label class="flex items-center gap-2.5 cursor-pointer group">
+                                    <input type="radio" name="is_csbb" value="Yes" required
+                                        class="w-4 h-4 text-macBlue bg-white border-black/20 focus:ring-macBlue/30 focus:ring-4 cursor-pointer">
+                                    <span class="text-[15px] text-macText">Yes</span>
+                                </label>
+                                <label class="flex items-center gap-2.5 cursor-pointer group">
+                                    <input type="radio" name="is_csbb" value="No"
+                                        class="w-4 h-4 text-macBlue bg-white border-black/20 focus:ring-macBlue/30 focus:ring-4 cursor-pointer">
+                                    <span class="text-[15px] text-macText">No</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sessions Attended -->
+                <div class="space-y-5">
+                    <h3
+                        class="text-[15px] font-semibold text-macText flex items-center gap-2 border-b border-black/5 pb-2">
+                        <span
+                            class="bg-black/5 text-macText w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+                        Modules Attended
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pb-2">
+                        <label
+                            class="checkbox-wrapper relative flex items-center gap-3 p-3.5 rounded-xl border border-black/10 bg-white cursor-pointer hover:border-macBlue/40 transition-colors shadow-sm">
+                            <input type="checkbox" name="sessions" value="Single-Cell RNA-Seq Analysis"
+                                class="w-4.5 h-4.5 rounded text-macBlue focus:ring-macBlue/30 focus:ring-4 bg-white border-black/20 cursor-pointer">
+                            <span class="text-[14px] font-medium text-macText">Single-Cell RNA-Seq</span>
+                        </label>
+
+                        <label
+                            class="checkbox-wrapper relative flex items-center gap-3 p-3.5 rounded-xl border border-black/10 bg-white cursor-pointer hover:border-macBlue/40 transition-colors shadow-sm">
+                            <input type="checkbox" name="sessions" value="Bulk Transcriptomics Analysis"
+                                class="w-4.5 h-4.5 rounded text-macBlue focus:ring-macBlue/30 focus:ring-4 bg-white border-black/20 cursor-pointer">
+                            <span class="text-[14px] font-medium text-macText">Bulk Transcriptomics</span>
+                        </label>
+
+                        <label
+                            class="checkbox-wrapper relative flex items-center gap-3 p-3.5 rounded-xl border border-black/10 bg-white cursor-pointer hover:border-macBlue/40 transition-colors shadow-sm">
+                            <input type="checkbox" name="sessions" value="AI-Driven Biomedical Imaging"
+                                class="w-4.5 h-4.5 rounded text-macBlue focus:ring-macBlue/30 focus:ring-4 bg-white border-black/20 cursor-pointer">
+                            <span class="text-[14px] font-medium text-macText">AI Biomedical Imaging</span>
+                        </label>
+
+                        <label
+                            class="checkbox-wrapper relative flex items-center gap-3 p-3.5 rounded-xl border border-black/10 bg-white cursor-pointer hover:border-macBlue/40 transition-colors shadow-sm">
+                            <input type="checkbox" name="sessions" value="Hands-On Sessions"
+                                class="w-4.5 h-4.5 rounded text-macBlue focus:ring-macBlue/30 focus:ring-4 bg-white border-black/20 cursor-pointer">
+                            <span class="text-[14px] font-medium text-macText">Hands-On Practice</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Ratings Group -->
+                <div class="space-y-5">
+                    <h3
+                        class="text-[15px] font-semibold text-macText flex items-center gap-2 border-b border-black/5 pb-2">
+                        <span
+                            class="bg-black/5 text-macText w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
+                        Evaluation (1-5)
+                    </h3>
+
+                    <div class="bg-white rounded-2xl border border-black/5 p-1 shadow-sm overflow-hidden">
+
+                        <!-- Rating Rows designed like modern Apple lists -->
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 border-b border-black/[0.03]">
+                            <label class="text-[14px] font-medium text-macText">Quality of Lectures</label>
+                            <div class="flex gap-2 w-full sm:w-auto rating-group">
+                                <!-- Reusable rating blocks via CSS, shortened for clarity -->
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="lecture_rating" value="1" required class="peer sr-only">
+                                    <div class="rating-bubble">1</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="lecture_rating" value="2" class="peer sr-only">
+                                    <div class="rating-bubble">2</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="lecture_rating" value="3" class="peer sr-only">
+                                    <div class="rating-bubble">3</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="lecture_rating" value="4" class="peer sr-only">
+                                    <div class="rating-bubble">4</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="lecture_rating" value="5" class="peer sr-only">
+                                    <div class="rating-bubble">5</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 border-b border-black/[0.03]">
+                            <label class="text-[14px] font-medium text-macText">Hands-On Sessions</label>
+                            <div class="flex gap-2 w-full sm:w-auto rating-group">
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="handson_rating" value="1" required class="peer sr-only">
+                                    <div class="rating-bubble">1</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="handson_rating" value="2" class="peer sr-only">
+                                    <div class="rating-bubble">2</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="handson_rating" value="3" class="peer sr-only">
+                                    <div class="rating-bubble">3</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="handson_rating" value="4" class="peer sr-only">
+                                    <div class="rating-bubble">4</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="handson_rating" value="5" class="peer sr-only">
+                                    <div class="rating-bubble">5</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 border-b border-black/[0.03]">
+                            <label class="text-[14px] font-medium text-macText">Clarity of Instruction</label>
+                            <div class="flex gap-2 w-full sm:w-auto rating-group">
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="clarity_rating" value="1" required class="peer sr-only">
+                                    <div class="rating-bubble">1</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="clarity_rating" value="2" class="peer sr-only">
+                                    <div class="rating-bubble">2</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="clarity_rating" value="3" class="peer sr-only">
+                                    <div class="rating-bubble">3</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="clarity_rating" value="4" class="peer sr-only">
+                                    <div class="rating-bubble">4</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="clarity_rating" value="5" class="peer sr-only">
+                                    <div class="rating-bubble">5</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4">
+                            <label class="text-[14px] font-medium text-macText">Overall Experience</label>
+                            <div class="flex gap-2 w-full sm:w-auto rating-group">
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="overall_rating" value="1" required class="peer sr-only">
+                                    <div class="rating-bubble">1</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="overall_rating" value="2" class="peer sr-only">
+                                    <div class="rating-bubble">2</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="overall_rating" value="3" class="peer sr-only">
+                                    <div class="rating-bubble">3</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="overall_rating" value="4" class="peer sr-only">
+                                    <div class="rating-bubble">4</div>
+                                </label>
+                                <label class="cursor-pointer group flex-1 sm:flex-none"><input type="radio"
+                                        name="overall_rating" value="5" class="peer sr-only">
+                                    <div class="rating-bubble">5</div>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Detailed Text Questions -->
+                <div class="space-y-5">
+                    <h3
+                        class="text-[15px] font-semibold text-macText flex items-center gap-2 border-b border-black/5 pb-2">
+                        <span
+                            class="bg-black/5 text-macText w-6 h-6 rounded-full flex items-center justify-center text-xs">4</span>
+                        Detailed Insights
+                    </h3>
+
+                    <!-- Most Valuable -->
+                    <div class="space-y-1.5 relative">
+                        <label for="valuable_feedback" class="block text-[13px] font-medium text-macSecondary">What was
+                            most valuable?</label>
+                        <textarea id="valuable_feedback" name="valuable_feedback" rows="3"
+                            class="w-full bg-white border border-black/10 rounded-xl py-3 px-4 text-[15px] text-macText placeholder-macSecondary/50 focus:outline-none focus:ring-4 focus:ring-macBlue/20 focus:border-macBlue transition-all shadow-mac-input resize-y"
+                            placeholder="e.g., The pipeline breakdown..."></textarea>
+                    </div>
+
+                    <!-- Suggestions -->
+                    <div class="space-y-1.5 relative">
+                        <label for="improvement_suggestions"
+                            class="block text-[13px] font-medium text-macSecondary">Suggestions for improvement</label>
+                        <textarea id="improvement_suggestions" name="improvement_suggestions" rows="3"
+                            class="w-full bg-white border border-black/10 rounded-xl py-3 px-4 text-[15px] text-macText placeholder-macSecondary/50 focus:outline-none focus:ring-4 focus:ring-macBlue/20 focus:border-macBlue transition-all shadow-mac-input resize-y"
+                            placeholder="e.g., More R scripting time..."></textarea>
+                    </div>
+
+                    <!-- Future sessions -->
+                    <div class="space-y-1.5 relative">
+                        <label for="future_sessions"
+                            class="block text-[13px] font-medium text-macSecondary">Future sessions / Topics you would like us to cover</label>
+                        <textarea id="future_sessions" name="future_sessions" rows="2"
+                            class="w-full bg-white border border-black/10 rounded-xl py-3 px-4 text-[15px] text-macText placeholder-macSecondary/50 focus:outline-none focus:ring-4 focus:ring-macBlue/20 focus:border-macBlue transition-all shadow-mac-input resize-y"
+                            placeholder="Ideas for future workshops..."></textarea>
+                    </div>
+
+                    <!-- Additional -->
+                    <div class="space-y-1.5 relative">
+                        <label for="additional_comments"
+                            class="block text-[13px] font-medium text-macSecondary">Additional comments
+                            (Optional)</label>
+                        <textarea id="additional_comments" name="additional_comments" rows="2"
+                            class="w-full bg-white border border-black/10 rounded-xl py-3 px-4 text-[15px] text-macText placeholder-macSecondary/50 focus:outline-none focus:ring-4 focus:ring-macBlue/20 focus:border-macBlue transition-all shadow-mac-input resize-y"
+                            placeholder="Any other thoughts..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4 text-center">
+                    <button type="submit" id="submitBtn"
+                        class="w-full sm:w-[280px] px-8 py-3.5 bg-macBlue hover:bg-macBlueHover text-white rounded-full font-semibold text-[15px] shadow-[0_4px_14px_0_rgba(0,102,204,0.39)] hover:shadow-[0_6px_20px_rgba(0,102,204,0.23)] hover:-translate-y-0.5 transition-all flex justify-center items-center gap-2 mx-auto disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-arrow-up"></i>
+                        <span id="btnText">Submit Feedback</span>
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Status Container -->
+            <div id="formStatus" class="hidden mt-6 p-4 rounded-xl text-center font-medium animate-fade-in text-[14px]">
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
